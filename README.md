@@ -36,7 +36,7 @@ There are several choices of input space which are critical to achieving good pe
 
 ### Compression Evaluation Metric
 
-Music is fundamentally subjective. Thus generating a quantitatively evaluation metric for our compression algorithm is very difficult. It is not possible to naively compare the reconstruced time domain signals, as completely different signals can sound the same. For example, phase shift, or small uniform frequency shifts are imperceptible to the human ear. A naive loss in the time domain would heavily penalize this.
+Music is fundamentally subjective. Thus generating a quantitatively evaluation metric for our compression algorithm is very difficult. It is not possible to naively compare the reconstructed time domain signals, as completely different signals can sound the same. For example, phase shift, or small uniform frequency shifts are imperceptible to the human ear. A naive loss in the time domain would heavily penalise this.
 
 ![Phase Shift](phase_shift.png)
 
@@ -44,7 +44,7 @@ On the other hand, a time domain loss does not adequately capture high frequenci
 
 We follow the approach of [1] and instead use an RMSE metric by directly comparing the frequency spectra across time. This has the benefit of considering low amplitudes and high frequencies, and is perceptually much closer.
 
-Original Spectrogram
+**Original Spectrogram**
 
 ![Original Spectrogram](original_spect.png)
 
@@ -64,7 +64,7 @@ Our main motivation for this approach is to build an end-to-end network so that 
 ![time_domain_autoencoder](model_diagrams/time_autoencoder.jpeg)
 
 ### Loss functions
-Even though an RMSE loss in the time domain is not the best choice from a point of view of audio perception, we found that it worked better than RMSE loss in spectral or log-spectral domain
+Even though an RMSE loss in the time domain is not the best choice from a point of view of audio perception, we found that it worked better than RMSE loss in spectral or log-spectral domain.
 
 
 # Music Genre Classification
@@ -74,9 +74,15 @@ We took the latent space obtained from time-domain compression model and added m
 ### Model details
 
 
+
+### Loss function
+
+We use a cross entropy loss function, which is a standard practise in classification problems.
+
+
 # Results
 
-
+## Compression using frequency domain autoencoder
 
 | Latent Vector Size | Bitrate (kbps) | RMSE | Demo File |
 | ------------- |:-------------:| :-----:| --------:|
@@ -90,7 +96,10 @@ We took the latent space obtained from time-domain compression model and added m
 
 ![Performance Plot](compression_performance.png)
 
-## Time-domain autoencoder for compression
+## Compression using time-domain autoencoder
+
+Our model performs 8x compression for audio samples.
+
 **Latent space**
 Samples from the test set:
 
@@ -98,17 +107,25 @@ Samples from the test set:
 | -- | -- |
 | ![latent_time_sample_3](results/time_autoencoder/latent_space/samples/31_latent.png) | ![latent_time_sample_4](results/time_autoencoder/latent_space/samples/49_latent.png)  |
 
+
+
 Overall space for the test set:
+
 ![time_overall_latent](results/time_autoencoder/latent_space/overall.png)
 
 ## Audio samples
 
 **Sample 1**
 
+* [Audio input](results/time_autoencoder/compression/sample0/0_input.mp3)
+* [Audio output](results/time_autoencoder/compression/sample0/0_output.mp3)
+
 ![Sample Audio](results/time_autoencoder/compression/sample0/plots.png)
 
-
 **Sample 2**
+
+* [Audio input](results/time_autoencoder/compression/sample1/4_input.mp3)
+* [Audio output](results/time_autoencoder/compression/sample1/4_output.mp3)
 
 ![Sample Audio](results/time_autoencoder/compression/sample1/plots.png)
 
@@ -125,11 +142,6 @@ Overall space for the test set:
   
 
    ![confusion_matrix](results/classification/precision_confusion.png)
-
-
-- Audio samples from compression
-- Compression results
-- Loss curves during training
 
 
 # Discussion and Conclusions
