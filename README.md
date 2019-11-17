@@ -1,10 +1,19 @@
-# Deep Autoencoders for Music Compression and Classification
-
 # Introduction (Sherry)
 
-What is music compression? What are some common bitrates, find a few audio samples at different bitrates. What are the traditional methods for music compression
+* What is music compression? 
+* Traditional methods of music compression?
+* What are some common bitrates, find a few audio samples at different bitrates. What are the traditional methods for music compression
+* Frequency and time domain analysis of a song (short intro to STFT)
 
-What is a STFT, what is a song spectrogram
+# Motivation
+
+Traditional methods of music compression have a deterministic algorithm, which relies on identifying features and patterns (in the frequency domain). As deep networks are really good at capturing complex patterns, we are trying to analyse the ability to condense a song's patterns into a smaller dimension space.
+
+Once we have the latent space, we want to build models on the latent space as opposed to the original input space to build classification models.
+
+# Dataset
+
+We use the [FMA dataset](https://github.com/mdeff/fma). For this project we use *small* version of the dataset containing 8000 songs from 8 genre categories. We used a 70-30 split between train and test set.
 
 
 # Approach
@@ -47,8 +56,6 @@ We then use a simple RMSE metric to compare the reference and reconstruction
 Signal autoencoder, attempt to learn fourier 
 
 Supervised training for classification
-
-# Dataset
 
 # Results
 
