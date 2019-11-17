@@ -6,21 +6,20 @@ What is music compression? What are some common bitrates, find a few audio sampl
 
 What is a STFT, what is a song spectrogram
 
-# Dataset
 
 # Approach
 
 ## Unsupervised Audio Compression
 
+A deep autoencoder is a special type of feedforward neural network which can be used in denoising and compression [2]. In this architecture, the network must learn to compress a high-dimensional input through a low-dimensional bottleneck, and then faithfully reconstruct the output with minimal error. 
+
+Clearly, it is impossible to reconstruct the input with zero error, so the network learns a lossy compression. The network can discover patterns in the input to reduce the data dimensionality required to fit through the bottleneck. The network is penalized with an L2 reconstruction loss. This is a completely unsupervised method of training that provides very rich supervision. Instead of the 
+
+![Autoencoder](ae.png)
 
 
 
-
-
-
-
-
-## Music Genre Classification
+### Music Genre Classification
 
 
 Frequency autoencoder. Learn image to image translation
@@ -29,7 +28,7 @@ Signal autoencoder, attempt to learn fourier
 
 Supervised training for classification
 
-## Compression Evaluation Metric
+### Compression Evaluation Metric
 
 Music is fundamentally subjective. Thus generating a quantitatively evaluation metric for our compression algorithm is very difficult. It is not possible to naively compare the reconstruced time domain signals, as completely different signals can sound the same. For example, phase shift, or small uniform frequency shifts are imperceptible to the human ear. A naive loss in the time domain would heavily penalize this.
 
@@ -51,6 +50,9 @@ We then use a simple RMSE metric to compare the reference and reconstruction
 
 ![RMSE Loss](rmse_loss.png)
 
+
+# Dataset
+
 # Results
 
 - Audio samples from compression
@@ -66,3 +68,5 @@ We then use a simple RMSE metric to compare the reference and reconstruction
 # Citations
 
 - [1] Roche, Fanny, et al. "Autoencoders for music sound modeling: a comparison of linear, shallow, deep, recurrent and variational models." arXiv preprint arXiv:1806.04096 (2018).
+
+- [2] Vincent, Pascal, et al. "Extracting and composing robust features with denoising autoencoders." Proceedings of the 25th international conference on Machine learning. ACM, 2008.
