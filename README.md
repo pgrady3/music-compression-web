@@ -1,9 +1,12 @@
-# Introduction (Sherry)
+# Introduction
 
-* What is music compression? 
-* Traditional methods of music compression?
-* What are some common bitrates, find a few audio samples at different bitrates. What are the traditional methods for music compression
-* Frequency and time domain analysis of a song (short intro to STFT)
+Music compression reduces the signal's dynamic range, i.e. the loudest and queitest parts of an audio signal. This is necessary for making the loudest sound quieter, the quiet sound louder. 
+
+The common bitrates for music can range between 128 kbit/s and 320 kbit/s, if not take the lossless audio into account. The higher bitrate, the better the music quality is. Here is a [link](<https://www.youtube.com/watch?v=53tdYmJuUmM>) that compares a song with different bitrates ranging from 1kbit/s to 320 kbit/s.
+
+We want to apply neural networks to help us find the song's pattern and compress the music for us. We use the STFT to help us transform the music from the time domain to the frequency domain, which is a common trick in signal processing to identify the pattern of music. STFT is a special form of Fourier transform, which will divide the longer time signal into shorter segments of equal length and then compute the Fourier transforms separately on each segment. The slicing can help us retain the time dimension in analyzing the music pattern.
+
+
 
 # Motivation
 
