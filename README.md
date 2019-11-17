@@ -1,4 +1,4 @@
-# music-compression-web
+# Deep Autoencoders for Music Compression and Classification
 
 # Introduction (Sherry)
 
@@ -6,7 +6,22 @@ What is music compression? What are some common bitrates, find a few audio sampl
 
 What is a STFT, what is a song spectrogram
 
+# Dataset
+
 # Approach
+
+## Unsupervised Audio Compression
+
+
+
+
+
+
+
+
+
+## Music Genre Classification
+
 
 Frequency autoencoder. Learn image to image translation
 
@@ -39,10 +54,14 @@ We then use a simple RMSE metric to compare the reference and reconstruction
 # Results
 
 - Audio samples from compression
-- Compression score sheet
+- Compression results
+- Latent space visualization
+- Latent space T-sne plot (would be cool!)
+- Classifier confusion matrix
+- Loss curves during training
 
 
-
+# Discussiona and Conclusions
 
 # Citations
 
