@@ -11,22 +11,13 @@ What is a STFT, what is a song spectrogram
 
 ## Unsupervised Audio Compression
 
-A deep autoencoder is a special type of feedforward neural network which can be used in denoising and compression [2]. In this architecture, the network must learn to compress a high-dimensional input through a low-dimensional bottleneck, and then faithfully reconstruct the output with minimal error. 
+A deep autoencoder is a special type of feedforward neural network which can be used in denoising and compression [2]. In this architecture, the network consists of an encoder and decoder module. The encoder learns to compress a high-dimensional input X to a low-dimensional latent space z. This "bottleneck" forces the information in X to be compressed. The decoder then attempts to faithfully reconstruct the output with minimal error. Both the encoder and decoder are implemented as convolutional neural networks.
 
-Clearly, it is impossible to reconstruct the input with zero error, so the network learns a lossy compression. The network can discover patterns in the input to reduce the data dimensionality required to fit through the bottleneck. The network is penalized with an L2 reconstruction loss. This is a completely unsupervised method of training that provides very rich supervision. Instead of the 
+Clearly, it is impossible to reconstruct the input with zero error, so the network learns a lossy compression. The network can discover patterns in the input to reduce the data dimensionality required to fit through the bottleneck. The network is penalized with an L2 reconstruction loss. This is a completely unsupervised method of training that provides very rich supervision.
 
 ![Autoencoder](ae.png)
 
 
-
-### Music Genre Classification
-
-
-Frequency autoencoder. Learn image to image translation
-
-Signal autoencoder, attempt to learn fourier 
-
-Supervised training for classification
 
 ### Compression Evaluation Metric
 
@@ -50,6 +41,12 @@ We then use a simple RMSE metric to compare the reference and reconstruction
 
 ![RMSE Loss](rmse_loss.png)
 
+
+### Music Genre Classification
+
+Signal autoencoder, attempt to learn fourier 
+
+Supervised training for classification
 
 # Dataset
 
