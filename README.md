@@ -17,7 +17,9 @@ Clearly, it is impossible to reconstruct the input with zero error, so the netwo
 
 ![Autoencoder](ae.png)
 
+There are several choices of input space which are critical to achieving good performance. In keeping with other similar approaches [1], we convert the audio signal into a spectrogram using a short-time-fourier-transform (STFT). This converts the song into an "image", with time on one axis and frequency on another. This has advantages in that it is more human-interpretable, and a broad family of techniques from computer vision can be used, as this is thought of as a 2D image.
 
+![Spectrogram](spect2.png)
 
 ### Compression Evaluation Metric
 
@@ -52,15 +54,35 @@ Supervised training for classification
 
 # Results
 
-- Audio samples from compression
-- Compression results
+
+
+| Latent Vector Size | Bitrate (kbps) | RMSE | Demo File |
+| ------------- |:-------------:| :-----:| --------:|
+| 512x1x126 | 126 | 0.867 | [Audio Sample](512.wav) |
+| 256x1x126 | 63 | 0.803 | [Audio Sample](256.wav) |
+| 128x1x126 | 31.5 | 0.929 | [Audio Sample](128.wav) |
+| 64x1x126 | 15.7 | 1.24 | [Audio Sample](64.wav) |
+| 32x1x126 | 7.9 | 1.61 | [Audio Sample](32.wav) |
+
+
+
+![Performance Plot](compression_performance.png)
+
+
+
+
+
+
+
+
+
 - Latent space visualization
 - Latent space T-sne plot (would be cool!)
 - Classifier confusion matrix
 - Loss curves during training
 
 
-# Discussiona and Conclusions
+# Discussion and Conclusions
 
 # Citations
 
