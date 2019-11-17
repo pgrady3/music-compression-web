@@ -1,15 +1,22 @@
-# Deep Autoencoders for Music Compression and Classification
-
 # Introduction (Sherry)
 
-What is music compression? What are some common bitrates, find a few audio samples at different bitrates. What are the traditional methods for music compression
+* What is music compression? 
+* Traditional methods of music compression?
+* What are some common bitrates, find a few audio samples at different bitrates. What are the traditional methods for music compression
+* Frequency and time domain analysis of a song (short intro to STFT)
 
-What is a STFT, what is a song spectrogram
+# Motivation
+
+Traditional methods of music compression have a deterministic algorithm, which relies on identifying features and patterns (in the frequency domain). As deep networks are really good at capturing complex patterns, we are trying to analyse the ability to condense a song's patterns into a smaller dimension space.
+
+Once we have the latent space, we want to build models on the latent space as opposed to the original input space to build classification models.
+
+# Dataset
+
+We use the [FMA dataset](https://github.com/mdeff/fma). For this project we use *small* version of the dataset containing 8000 songs from 8 genre categories. We used a 70-30 split between train and test set.
 
 
-# Approach
-
-## Unsupervised Audio Compression
+# Unsupervised Audio Compression
 
 A deep autoencoder is a special type of feedforward neural network which can be used in denoising and compression [2]. In this architecture, the network consists of an encoder and decoder module. The encoder learns to compress a high-dimensional input X to a low-dimensional latent space z. This "bottleneck" forces the information in X to be compressed. The decoder then attempts to faithfully reconstruct the output with minimal error. Both the encoder and decoder are implemented as convolutional neural networks.
 
@@ -17,9 +24,15 @@ Clearly, it is impossible to reconstruct the input with zero error, so the netwo
 
 ![Autoencoder](ae.png)
 
+## Frequency domain autoencoder
+
 There are several choices of input space which are critical to achieving good performance. In keeping with other similar approaches [1], we convert the audio signal into a spectrogram using a short-time-fourier-transform (STFT). This converts the song into an "image", with time on one axis and frequency on another. This has advantages in that it is more human-interpretable, and a broad family of techniques from computer vision can be used, as this is thought of as a 2D image.
 
 ![Spectrogram](spect2.png)
+
+### Model details
+
+### Loss function
 
 ### Compression Evaluation Metric
 
@@ -43,14 +56,23 @@ We then use a simple RMSE metric to compare the reference and reconstruction
 
 ![RMSE Loss](rmse_loss.png)
 
+## Time domain autoencoder
 
-### Music Genre Classification
+Our main motivation for this approach is to build an end-to-end network so that it can potentially learn a more compressed representation. This approach is inspired from computer vision where people moved from a classical pipeline of feature design to end-to-end deep model.
 
-Signal autoencoder, attempt to learn fourier 
+### Model details
+![time_domain_autoencoder](model_diagrams/time_autoencoder.jpeg)
 
-Supervised training for classification
+### Loss functions
+Even though an RMSE loss in the time domain is not the best choice from a point of view of audio perception, we found that it worked better than RMSE loss in spectral or log-spectral domain
 
-# Dataset
+
+# Music Genre Classification
+
+We took the latent space obtained from time-domain compression model and added more CNNs and FC layers on top of it to perform genre classification on 8 classes.
+
+### Model details
+
 
 # Results
 
@@ -68,6 +90,7 @@ Supervised training for classification
 
 ![Performance Plot](compression_performance.png)
 
+## Time-domain autoencoder for compression
 **Latent space**
 Samples from the test set:
 
@@ -83,7 +106,6 @@ Overall space for the test set:
 **Sample 1**
 
 ![Sample Audio](results/time_autoencoder/compression/sample0/plots.png)
-
 
 
 **Sample 2**
