@@ -1,22 +1,22 @@
 # Introduction
 
-Music compression reduces the signal's dynamic range, i.e. the loudest and queitest parts of an audio signal. This is necessary for making the loudest sound quieter, the quiet sound louder. 
+Music compression is essential to reduce file size of audio data, enabling efficient storage and transmission. MP3 is the most common *lossy* compression algorithm which uses spectral transforms to harness the sparisity and the perceptual limitation of human hearing.
 
-The common bitrates for music can range between 128 kbit/s and 320 kbit/s, if not take the lossless audio into account. The higher bitrate, the better the music quality is. Here is a [link](<https://www.youtube.com/watch?v=53tdYmJuUmM>) that compares a song with different bitrates ranging from 1kbit/s to 320 kbit/s.
+The common bitrates for MP3 codec ranges between 128 kbit/s and 320 kbit/s.  Here is a [link](https://www.youtube.com/watch?v=53tdYmJuUmM) that compares a song with different bitrates ranging from 1kbit/s to 320 kbit/s.
 
-We want to apply neural networks to help us find the song's pattern and compress the music for us. We use the STFT to help us transform the music from the time domain to the frequency domain, which is a common trick in signal processing to identify the pattern of music. STFT is a special form of Fourier transform, which will divide the longer time signal into shorter segments of equal length and then compute the Fourier transforms separately on each segment. The slicing can help us retain the time dimension in analyzing the music pattern.
+Different methods of genre prediction have been tried out on spectral representation on audio, using CNNs [3] and RNNs [4].
 
-
-
-# Motivation
-
-Traditional methods of music compression have a deterministic algorithm, which relies on identifying features and patterns (in the frequency domain). As deep networks are really good at capturing complex patterns, we are trying to analyse the ability to condense a song's patterns into a smaller dimension space.
+Traditional methods of music compression are deterministic algorithm, which relies on identifying features and patterns (in the frequency domain). As deep networks are really good at capturing complex patterns, we are trying to analyse the ability to condense a song's patterns into a smaller dimension space.
 
 Once we have the latent space, we want to build models on the latent space as opposed to the original input space to build classification models.
 
+
+
 # Dataset
 
-We use the [FMA dataset](https://github.com/mdeff/fma). For this project we use *small* version of the dataset containing 8000 songs from 8 genre categories. We used a 70-30 split between train and test set.
+We use the [FMA dataset](https://github.com/mdeff/fma) [5]. For this project we use *small* version of the dataset containing 8000 songs from 8 genre categories. We used a 70-30 split between train and test set. The choice to use small version was due to unavailability of computing resources needed for larger versions of the dataset.
+
+
 
 
 # Unsupervised Audio Compression
@@ -51,7 +51,7 @@ We follow the approach of [1] and instead use an RMSE metric by directly compari
 
 ![Original Spectrogram](original_spect.png)
 
-Reconstructed Spectrogram
+**Reconstructed Spectrogram**
 
 ![Reconstructed Spectrogram](reconst_spect.png)
 
@@ -61,13 +61,14 @@ We then use a simple RMSE metric to compare the reference and reconstruction
 
 ## Time domain autoencoder
 
-Our main motivation for this approach is to build an end-to-end network so that it can potentially learn a more compressed representation. This approach is inspired from computer vision where people moved from a classical pipeline of feature design to end-to-end deep model.
+Our main motivation for this approach is to build an end-to-end network so that it can potentially learn a more compressed representation. This approach is inspired from computer vision where people moved from a classical pipeline of feature design to end-to-end deep models.
 
 ### Model details
 ![time_domain_autoencoder](model_diagrams/time_autoencoder.jpeg)
 
 ### Loss functions
-Even though an RMSE loss in the time domain is not the best choice from a point of view of audio perception, we found that it worked better than RMSE loss in spectral or log-spectral domain.
+Even though an RMSE loss in the time domain is not the best choice from a point of view of audio perception, we found that it worked better than loss computation in spectral or log-spectral domain.
+
 
 
 # Music Genre Classification
@@ -75,17 +76,19 @@ Even though an RMSE loss in the time domain is not the best choice from a point 
 We took the latent space obtained from time-domain compression model and added more CNNs and FC layers on top of it to perform genre classification on 8 classes.
 
 ### Model details
-
-
+![classification_model](model_diagrams/classification.jpeg)
 
 ### Loss function
 
 We use a cross entropy loss function, which is a standard practise in classification problems.
 
 
+
 # Results
 
 ## Compression using frequency domain autoencoder
+
+TODO: add compression ratios too for easier understanding
 
 | Latent Vector Size | Bitrate (kbps) | RMSE | Demo File |
 | ------------- |:-------------:| :-----:| --------:|
@@ -98,6 +101,8 @@ We use a cross entropy loss function, which is a standard practise in classifica
 
 
 ![Performance Plot](compression_performance.png)
+
+
 
 ## Compression using time-domain autoencoder
 
@@ -139,18 +144,29 @@ Overall space for the test set:
 
 * Overall accuracy on test set: 45%
 
-  * Using majority voting on 5 2-second segments of the song
-  * 42% percent using just a single 2 second segment
+  * Using majority voting on five 2-second segments of the song
+  * 42% percent using just a single 2-second segment
 
   
 
    ![confusion_matrix](results/classification/precision_confusion.png)
 
-
 # Discussion and Conclusions
+
+TODO: add frequency domain conclusions
+
+The time domain autoencoder model can capture the basic rhythm in the music, but it has a lot of white noise in the reconstruction. This is due to the fact that there is no *smoothing* component in the loss function. We tried to penalise difference in the neighbourhood but it did not perform well. We can hear the main beats in the reconstruction but it has a lot of noise.
+
+The classifier performs decent on top of the latent space, which supports the fact latent space represents some identifiable characteristics of music. 
+
+We trained all our models on 2 second snippets of 8000 songs. This choice was driven by the availability of computational resources and schedule for the deliverable. Our model takes ~6 hours to train on Google's Colab platform. We think that having a bigger dataset and increasing the model complexity will improve both compression and genre classification performance.
+
+
 
 # Citations
 
 - [1] Roche, Fanny, et al. "Autoencoders for music sound modeling: a comparison of linear, shallow, deep, recurrent and variational models." arXiv preprint arXiv:1806.04096 (2018).
-
 - [2] Vincent, Pascal, et al. "Extracting and composing robust features with denoising autoencoders." Proceedings of the 25th international conference on Machine learning. ACM, 2008.
+- [3] Liu, Caifeng, et al. "Bottom-up Broadcast Neural Network For Music Genre Classification." arXiv preprint arXiv:1901.08928 (2019)
+- [4] Freitag, Michael, et al. "audeep: Unsupervised learning of representations from audio with deep recurrent neural networks." *The Journal of Machine Learning Research* 18.1 (2017): 6340-6344.
+- [5] Defferrard, Michaël, et al. "Fma: A dataset for music analysis." arXiv preprint arXiv:1612.01840 (2016).
