@@ -82,7 +82,7 @@ Some of the loss functions we tried:
 
 * RMSE between STFT(input) and STFT(output)
 * RMSE + variational loss in the time domain to prevent high frequency noise
-* L1 loss in the time domain
+* L1 loss in the time domain (to encourage sparse differences and hence exact reconstruction)
 
 # Music Genre Classification
 
