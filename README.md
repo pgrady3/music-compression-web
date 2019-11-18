@@ -1,17 +1,16 @@
 # Introduction
 
-Audio files are notoriously large when uncompressed. For example, CD quality audio, sampled at 44 kHz, has a bitrate of 1,411 kbits per second (kbps). 
+Audio files are notoriously large when uncompressed. For example, CD quality audio, sampled at 44 kHz, has a bitrate of 1,411 kbits per second (kbps). On a 700 MB CD, there is only enough capacity for about an hour of music.
 
-Music compression is essential to reduce file size of audio data, enabling efficient storage and transmission. MP3 is the most common *lossy* compression algorithm which uses spectral transforms to harness the sparisity and the perceptual limitation of human hearing.
+Consequently audio compression is essential to reducing file sizes to more practical levels, enabling efficient storage and transmission. MP3 is the most common *lossy* compression algorithm which uses spectral transforms to harness the sparisity and the perceptual limitation of human hearing.
 
-The common bitrates for MP3 codec ranges between 128 kbit/s and 320 kbit/s.  Here is a [link](https://www.youtube.com/watch?v=53tdYmJuUmM) that compares a song with different bitrates ranging from 1kbit/s to 320 kbit/s.
+The MP3 codec typically compresses to a bitrate between 128 kbit/s and 320 kbit/s. This [demo](https://www.youtube.com/watch?v=53tdYmJuUmM) compares audio bitrates of a sample song from 1kbit/s to 320 kbit/s.
 
-Different methods of genre prediction have been tried out on spectral representation on audio, using CNNs [3] and RNNs [4].
-
-Traditional methods of music compression are deterministic algorithm, which relies on identifying features and patterns (in the frequency domain). As deep networks are really good at capturing complex patterns, we are trying to analyse the ability to condense a song's patterns into a smaller dimension space.
+Traditional methods of music compression typcially use deterministic algorithms, which rely on identifying features and patterns in the frequency domain. As deep networks excel at capturing complex patterns and extracting nonlinear features, we analyze their ability to condense a song's patterns into a compressed lower-dimensional space. 
 
 Once we have the latent space, we want to build models on the latent space as opposed to the original input space to build classification models.
 
+Different methods of genre prediction have been tried out on spectral representation on audio, using CNNs [3] and RNNs [4].
 
 
 # Dataset
