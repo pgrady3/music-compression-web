@@ -36,7 +36,11 @@ There are several choices of input space which are critical to achieving good pe
 
 ### Model details
 
+TODO: add
+
 ### Loss function
+
+TODO: merge with next section
 
 ### Compression Evaluation Metric
 
@@ -47,6 +51,8 @@ Music is fundamentally subjective. Thus generating a quantitatively evaluation m
 On the other hand, a time domain loss does not adequately capture high frequencies and low volumes. As human perception of sound is logarithmic, and low frequencies typically have higher amplitude, a time domain loss under-weights high frequencies and results in a muffled, underwater-sounding output.
 
 We follow the approach of [1] and instead use an RMSE metric by directly comparing the frequency spectra across time. This has the benefit of considering low amplitudes and high frequencies, and is perceptually much closer.
+
+TODO: maybe move the spectrograms to results? Use the notebook visualizations.ipynb for labels and stuff
 
 **Original Spectrogram**
 
@@ -64,7 +70,7 @@ We then use a simple RMSE metric to compare the reference and reconstruction
 
 Our main motivation for this approach is to build an end-to-end network so that it can potentially learn a more compressed representation. This approach is inspired from computer vision where people moved from a classical pipeline of feature design to end-to-end deep models.
 
-TODO: something about how we attempt to LEARN an encoding. The STFT isn't very efficienct, for an audio file of size N, the matching STFT will take up about 4N space. So there's room for improvement
+Learning on a time domain signal saves space too as the spectral domain of an audio signal is sparse. We can directly go to a more efficient representation right after the first layer.
 
 ### Model details
 ![time_domain_autoencoder](model_diagrams/time_autoencoder.jpeg)
@@ -72,11 +78,17 @@ TODO: something about how we attempt to LEARN an encoding. The STFT isn't very e
 ### Loss functions
 Even though an RMSE loss in the time domain is not the best choice from a point of view of audio perception, we found that it worked better than loss computation in spectral or log-spectral domain.
 
-TODO: more on the experiments. Since you obviously did the work, make it show here. Maybe just a sentence on each loss function explaining how it affected?
+Some of the loss functions we tried:
+
+* RMSE between STFT(input) and STFT(output)
+* RMSE + variational loss in the time domain to prevent high frequency noise
+* L1 loss in the time domain
 
 # Music Genre Classification
 
-We took the latent space obtained from time-domain compression model and added more CNNs and FC layers on top of it to perform genre classification on 8 classes.
+ In this we attempt to utilize the latent features extracted from the music using the autoencoders to classify the music into genres using a supervised approach. This is similar to the clustering approach proposed by Xie et al.[6]. We took the latent space obtained from time-domain compression model and added more CNNs and FC layers on top of it to perform genre classification on 8 classes. The latent features for each song is considered as input features for that song and the output is the genre for each song. The output data is obtained from the same dataset.
+
+![Autoencoder Clustering](ae_clustering.png)
 
 TODO: This is a common unsupervised learning technique. Maybe this paper can give some ideas http://proceedings.mlr.press/v48/xieb16.pdf
 
@@ -177,3 +189,4 @@ We trained all our models on 2 second snippets of 8000 songs. This choice was dr
 - [3] Liu, Caifeng, et al. "Bottom-up Broadcast Neural Network For Music Genre Classification." arXiv preprint arXiv:1901.08928 (2019)
 - [4] Freitag, Michael, et al. "audeep: Unsupervised learning of representations from audio with deep recurrent neural networks." *The Journal of Machine Learning Research* 18.1 (2017): 6340-6344.
 - [5] Defferrard, Michaël, et al. "Fma: A dataset for music analysis." arXiv preprint arXiv:1612.01840 (2016).
+- [6] Xie, Junyuan, Ross Girshick, and Ali Farhadi. "Unsupervised deep embedding for clustering analysis." International conference on machine learning. 2016.
