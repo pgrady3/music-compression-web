@@ -37,7 +37,11 @@ There are several choices of input space which are critical to achieving good pe
 
 ### Model details
 
+TODO: add
+
 ### Loss function
+
+TODO: merge with next section
 
 ### Compression Evaluation Metric
 
@@ -48,6 +52,8 @@ Music is fundamentally subjective. Thus generating a quantitatively evaluation m
 On the other hand, a time domain loss does not adequately capture high frequencies and low volumes. As human perception of sound is logarithmic, and low frequencies typically have higher amplitude, a time domain loss under-weights high frequencies and results in a muffled, underwater-sounding output.
 
 We follow the approach of [1] and instead use an RMSE metric by directly comparing the frequency spectra across time. This has the benefit of considering low amplitudes and high frequencies, and is perceptually much closer.
+
+TODO: maybe move the spectrograms to results? Use the notebook visualizations.ipynb for labels and stuff
 
 **Original Spectrogram**
 
@@ -65,7 +71,7 @@ We then use a simple RMSE metric to compare the reference and reconstruction
 
 Our main motivation for this approach is to build an end-to-end network so that it can potentially learn a more compressed representation. This approach is inspired from computer vision where people moved from a classical pipeline of feature design to end-to-end deep models.
 
-TODO: something about how we attempt to LEARN an encoding. The STFT isn't very efficienct, for an audio file of size N, the matching STFT will take up about 4N space. So there's room for improvement
+Learning on a time domain signal saves space too as the spectral domain of an audio signal is sparse. We can directly go to a more efficient representation right after the first layer.
 
 ### Model details
 ![time_domain_autoencoder](model_diagrams/time_autoencoder.jpeg)
@@ -73,7 +79,11 @@ TODO: something about how we attempt to LEARN an encoding. The STFT isn't very e
 ### Loss functions
 Even though an RMSE loss in the time domain is not the best choice from a point of view of audio perception, we found that it worked better than loss computation in spectral or log-spectral domain.
 
-TODO: more on the experiments. Since you obviously did the work, make it show here. Maybe just a sentence on each loss function explaining how it affected?
+Some of the loss functions we tried:
+
+* RMSE between STFT(input) and STFT(output)
+* RMSE + variational loss in the time domain to prevent high frequency noise
+* L1 loss in the time domain
 
 # Music Genre Classification
 
