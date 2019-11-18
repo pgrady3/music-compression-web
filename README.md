@@ -8,25 +8,24 @@ The MP3 codec typically compresses to a bitrate between 128 kbit/s and 320 kbit/
 
 Traditional methods of music compression typcially use deterministic algorithms, which rely on identifying features and patterns in the frequency domain. As deep networks excel at capturing complex patterns and extracting nonlinear features, we analyze their ability to condense a song's patterns into a compressed lower-dimensional space. 
 
-Once we have the latent space, we want to build models on the latent space as opposed to the original input space to build classification models.
-
-Different methods of genre prediction have been tried out on spectral representation on audio, using CNNs [3] and RNNs [4].
+Once our compression and extraction framework is in place, we can leverage this compressed space or 'latent space'. The latent space is a more compact version of the audio sample, and is therefore useful when attempting to perform classification. We build another network based on the latent space as opposed to the original input space to perform genre classification. Previous works [3] [4] have used similar methods on the task of genre prediction, using a spectral representation of audio with CNNs and RNNs.
 
 
 # Dataset
 
-We use the [FMA dataset](https://github.com/mdeff/fma) [5]. For this project we use *small* version of the dataset containing 8000 songs from 8 genre categories. We used a 70-30 split between train and test set. The choice to use small version was due to unavailability of computing resources needed for larger versions of the dataset.
-
+We use the [FMA dataset](https://github.com/mdeff/fma) [5]. This is an open dataset of ~1 TB of songs from many artists and genres. For this project we use the *small* version of the dataset containing 8000 songs from 8 genre categories. We used a 70-30 split between train and test set. The choice to use small version was due to unavailability of computing resources needed for larger versions of the dataset.
 
 
 
 # Unsupervised Audio Compression
 
-A deep autoencoder is a special type of feedforward neural network which can be used in denoising and compression [2]. In this architecture, the network consists of an encoder and decoder module. The encoder learns to compress a high-dimensional input X to a low-dimensional latent space z. This "bottleneck" forces the information in X to be compressed. The decoder then attempts to faithfully reconstruct the output with minimal error. Both the encoder and decoder are implemented as convolutional neural networks.
+A deep autoencoder is a special type of feedforward neural network which can be used in denoising and compression [2]. In this architecture, the network consists of an encoder and decoder module. The encoder learns to compress a high-dimensional input X to a low-dimensional latent space z. This "bottleneck" forces the newtork to learn a compression to reduce the information in X to size of Z. The decoder then attempts to faithfully reconstruct the output with minimal error. Both the encoder and decoder are implemented as convolutional neural networks.
 
 Clearly, it is impossible to reconstruct the input with zero error, so the network learns a lossy compression. The network can discover patterns in the input to reduce the data dimensionality required to fit through the bottleneck. The network is penalized with an L2 reconstruction loss. This is a completely unsupervised method of training that provides very rich supervision.
 
 ![Autoencoder](ae.png)
+
+*Autoencoder network structure. Image credit to [Lilian Weng](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html)*
 
 ## Frequency domain autoencoder
 
