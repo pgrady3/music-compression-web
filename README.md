@@ -87,7 +87,7 @@ Some of the loss functions we tried:
 
 # Music Genre Classification
 
- In this we attempt to utilize the latent features extracted from the music using the autoencoders to classify the music into genres using a supervised approach. This is similar to the clustering approach proposed by Xie et al.[6]. We took the latent space obtained from time-domain compression model and added more CNNs and FC layers on top of it to perform genre classification on 8 classes. The latent features for each song is considered as input features for that song and the output is the genre for each song. The output data is obtained from the same dataset.
+ In this we attempt to utilize the latent features extracted from the music using the autoencoders to classify the music into genres using a supervised approach. This is similar to the clustering approach proposed by Xie et al.[6]. We took the latent space obtained from time-domain compression model and added more CNNs and FC layers on top of it to perform genre classification on 8 classes. The latent features for each song is considered as input features for the genre classifier. We think latent features would perform better than directly using the songs as the latent space can encode the complexity and temporal patterns in the song in a compressed format. The output data is obtained from the same dataset.
 
 ![Autoencoder Clustering](ae_clustering.png)
 
@@ -170,6 +170,10 @@ Overall space for the test set:
    ![confusion_matrix](results/classification/precision_confusion.png)
 
 TODO: If its not too hard, labels on the confusion matrix would be great
+
+## Dimensionality reduction for analysis of latent space
+
+In this we tried to apply clustering algorithms on top of our feature space 
 
 # Discussion and Conclusions
 
