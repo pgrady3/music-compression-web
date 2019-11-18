@@ -77,7 +77,9 @@ TODO: more on the experiments. Since you obviously did the work, make it show he
 
 # Music Genre Classification
 
-We took the latent space obtained from time-domain compression model and added more CNNs and FC layers on top of it to perform genre classification on 8 classes.
+ In this we attempt to utilize the latent features extracted from the music using the autoencoders to classify the music into genres using a supervised approach. This is similar to the clustering approach proposed by Xie et al.[6]. We took the latent space obtained from time-domain compression model and added more CNNs and FC layers on top of it to perform genre classification on 8 classes. The latent features for each song is considered as input features for that song and the output is the genre for each song. The output data is obtained from the same dataset.
+
+![Autoencoder Clustering](ae_clustering.png)
 
 TODO: This is a common unsupervised learning technique. Maybe this paper can give some ideas http://proceedings.mlr.press/v48/xieb16.pdf
 
@@ -178,3 +180,4 @@ We trained all our models on 2 second snippets of 8000 songs. This choice was dr
 - [3] Liu, Caifeng, et al. "Bottom-up Broadcast Neural Network For Music Genre Classification." arXiv preprint arXiv:1901.08928 (2019)
 - [4] Freitag, Michael, et al. "audeep: Unsupervised learning of representations from audio with deep recurrent neural networks." *The Journal of Machine Learning Research* 18.1 (2017): 6340-6344.
 - [5] Defferrard, Michaël, et al. "Fma: A dataset for music analysis." arXiv preprint arXiv:1612.01840 (2016).
+- [6] Xie, Junyuan, Ross Girshick, and Ali Farhadi. "Unsupervised deep embedding for clustering analysis." International conference on machine learning. 2016.
