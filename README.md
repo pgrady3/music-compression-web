@@ -1,5 +1,7 @@
 # Introduction
 
+Audio files are notoriously large when uncompressed. For example, CD quality audio, sampled at 44 kHz, has a bitrate of 1,411 kbits per second (kbps). 
+
 Music compression is essential to reduce file size of audio data, enabling efficient storage and transmission. MP3 is the most common *lossy* compression algorithm which uses spectral transforms to harness the sparisity and the perceptual limitation of human hearing.
 
 The common bitrates for MP3 codec ranges between 128 kbit/s and 320 kbit/s.  Here is a [link](https://www.youtube.com/watch?v=53tdYmJuUmM) that compares a song with different bitrates ranging from 1kbit/s to 320 kbit/s.
@@ -63,24 +65,28 @@ We then use a simple RMSE metric to compare the reference and reconstruction
 
 Our main motivation for this approach is to build an end-to-end network so that it can potentially learn a more compressed representation. This approach is inspired from computer vision where people moved from a classical pipeline of feature design to end-to-end deep models.
 
+TODO: something about how we attempt to LEARN an encoding. The STFT isn't very efficienct, for an audio file of size N, the matching STFT will take up about 4N space. So there's room for improvement
+
 ### Model details
 ![time_domain_autoencoder](model_diagrams/time_autoencoder.jpeg)
 
 ### Loss functions
 Even though an RMSE loss in the time domain is not the best choice from a point of view of audio perception, we found that it worked better than loss computation in spectral or log-spectral domain.
 
-
+TODO: more on the experiments. Since you obviously did the work, make it show here. Maybe just a sentence on each loss function explaining how it affected?
 
 # Music Genre Classification
 
 We took the latent space obtained from time-domain compression model and added more CNNs and FC layers on top of it to perform genre classification on 8 classes.
+
+TODO: This is a common unsupervised learning technique. Maybe this paper can give some ideas http://proceedings.mlr.press/v48/xieb16.pdf
 
 ### Model details
 ![classification_model](model_diagrams/classification.jpeg)
 
 ### Loss function
 
-We use a cross entropy loss function, which is a standard practise in classification problems.
+We use a cross entropy loss function, which is a standard practice in classification problems.
 
 
 
@@ -150,6 +156,8 @@ Overall space for the test set:
   
 
    ![confusion_matrix](results/classification/precision_confusion.png)
+
+TODO: If its not too hard, labels on the confusion matrix would be great
 
 # Discussion and Conclusions
 
