@@ -27,7 +27,7 @@ Clearly, it is impossible to reconstruct the input with zero error, so the netwo
 
 *Autoencoder network structure. Image credit to [Lilian Weng](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html)*
 
-## Frequency domain autoencoder
+## Frequency-Domain Autoencoder
 
 There are several choices of input space which are critical to achieving good performance. In keeping with other similar approaches [1], we convert the audio signal into a spectrogram using a short-time-fourier-transform (STFT). This converts the song into an "image", with time on one axis and frequency on another. This has advantages in that it is more human-interpretable, and a broad family of techniques from computer vision can be used, as this is thought of as a 2D image.
 
@@ -53,13 +53,13 @@ We follow the approach of [1] and instead use an RMSE metric by directly compari
 
 ![RMSE Loss](rmse_loss.png)
 
-## Time domain autoencoder
+## Time-Domain Autoencoder
 
 Our main motivation for this approach is to build an end-to-end network so that it can potentially learn a more compressed representation. This approach is inspired from computer vision where people moved from a classical pipeline of feature design to end-to-end deep models.
 
 Learning on a time domain signal saves space too as the spectral domain of an audio signal is sparse. We can directly go to a more efficient representation right after the first layer.
 
-### Model details
+### Model Details
 ![time_domain_autoencoder](model_diagrams/time_autoencoder.jpeg)
 
 ### Loss functions
@@ -89,7 +89,7 @@ We use a cross entropy loss function, which is a standard practice in classifica
 
 # Results
 
-## Compression using frequency domain autoencoder
+## Compression using frequency-domain autoencoder
 
 The model is evaluated on the test set of our split. The data is converted to a frequency image, compressed, reconstructed, and the error is computed. These can be visualized below.
 
@@ -120,7 +120,7 @@ Additionally, the autoencoder error is compared against a "compression baseline"
 
 ## Compression using time-domain autoencoder
 
-Our model performs 8x compression for audio samples.
+Our model performs 8x compression for audio samples. We visualize the latent space of autoencoder, as it helps demonstrate what the model has learned.
 
 **Latent space**
 Samples from the test set:
@@ -175,9 +175,15 @@ Below is the 2-dimensional space using KernelPCA with Radial Basis Function as k
 
 # Discussion and Conclusions
 
-TODO: add frequency domain conclusions
+### Frequency-Domain Autoencoder
 
-The time domain autoencoder model can capture the basic rhythm in the music, but it has a lot of white noise in the reconstruction. This is due to the fact that there is no *smoothing* component in the loss function. We tried to penalise difference in the neighbourhood but it did not perform well. We can hear the main beats in the reconstruction but it has a lot of noise.
+The frequency-domain autoencoder successfully compresses audio, and achieves similar performance to the naive downsampling baseline. While the reconstruction score is sometimes lower than the baseline, is produces good audio output with few artifacts. The beat and tune of the song can clearly be determined, and often vocals can be understood. 
+
+Unfortunately, the quantitative reconstruction performance is not sufficient to compete with the current state of the art in compression, but it is an encouraging proof of concept. We hypothesize that there may be a better intermediate space than the frequency domain. When converting a time domain signal to the frequency domain, the dimensionality increases, meaning that it is harder to compete with time domain methods. Additionally, a deeper model and a more exhaustive hyperparameter search would certainly yield increased performance.
+
+### Time-Domain Autoencoder
+
+The time-domain autoencoder model can capture the basic rhythm in the music, but it has a lot of white noise in the reconstruction. This is due to the fact that there is no *smoothing* component in the loss function. We tried to penalise difference in the neighbourhood but it did not perform well. We can hear the main beats in the reconstruction but it has a lot of noise.
 
 The classifier performs decent on top of the latent space, which supports the fact latent space represents some identifiable characteristics of music. 
 
