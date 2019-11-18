@@ -35,33 +35,21 @@ There are several choices of input space which are critical to achieving good pe
 
 ### Model details
 
-TODO: add
+![freq_ae_model](model_diagrams/freq_model.png)
 
 ### Loss function
 
-TODO: merge with next section
+An RMSE reconstruction loss is used to train the model. This model effectively penalizes large errors, with less weight given to small deviations. As seen in the next section, this directly optimizes for our evaluation metric.
 
 ### Compression Evaluation Metric
 
-Music is fundamentally subjective. Thus generating a quantitatively evaluation metric for our compression algorithm is very difficult. It is not possible to naively compare the reconstructed time domain signals, as completely different signals can sound the same. For example, phase shift, or small uniform frequency shifts are imperceptible to the human ear. A naive loss in the time domain would heavily penalise this.
+Music is fundamentally subjective. Thus generating a quantitative evaluation metric for our compression algorithm is very difficult. It is not possible to naively compare the reconstructed time domain signals, as completely different signals can sound the same. For example, phase shift, or small uniform frequency shifts are imperceptible to the human ear. A naive loss in the time domain would heavily penalise this.
 
 ![Phase Shift](phase_shift.png)
 
 On the other hand, a time domain loss does not adequately capture high frequencies and low volumes. As human perception of sound is logarithmic, and low frequencies typically have higher amplitude, a time domain loss under-weights high frequencies and results in a muffled, underwater-sounding output.
 
 We follow the approach of [1] and instead use an RMSE metric by directly comparing the frequency spectra across time. This has the benefit of considering low amplitudes and high frequencies, and is perceptually much closer.
-
-TODO: maybe move the spectrograms to results? Use the notebook visualizations.ipynb for labels and stuff
-
-**Original Spectrogram**
-
-![Original Spectrogram](original_spect.png)
-
-**Reconstructed Spectrogram**
-
-![Reconstructed Spectrogram](reconst_spect.png)
-
-We then use a simple RMSE metric to compare the reference and reconstruction
 
 ![RMSE Loss](rmse_loss.png)
 
@@ -103,16 +91,27 @@ We use a cross entropy loss function, which is a standard practice in classifica
 
 ## Compression using frequency domain autoencoder
 
-TODO: add compression ratios too for easier understanding
+The model is evaluated on the test set of our split. The data is converted to a frequency image, compressed, reconstructed, and the error is computed. These can be visualized below.
 
-| Latent Vector Size | Bitrate (kbps) | RMSE | Demo File |
-| ------------- |:-------------:| :-----:| --------:|
-| 512x1x126 | 126 | 0.867 | [Audio Sample](512.wav) |
-| 256x1x126 | 63 | 0.803 | [Audio Sample](256.wav) |
-| 128x1x126 | 31.5 | 0.929 | [Audio Sample](128.wav) |
-| 64x1x126 | 15.7 | 1.24 | [Audio Sample](64.wav) |
-| 32x1x126 | 7.9 | 1.61 | [Audio Sample](32.wav) |
 
+| **Original Spectrogram** | **Reconstructed Spectrogram** |
+| :----------: | :-------------:|
+| ![Original Spectrogram](original_spect.png) | ![Reconstructed Spectrogram](reconst_spect.png) |
+| ![Original Spectrogram](original_spect_2.png) | ![Reconstructed Spectrogram](reconst_spect_2.png) |
+
+
+The model is evaluated for many latent space sizes, corresponding to different compression ratios. As the latent space size is decreased, the model must compress more. Predictably, performance degrades with a lower bitrate
+
+
+| Latent Vector Size | Bitrate (kbps) | Compression Ratio | RMSE | Demo File |
+| ------------- |:-------------:|:-------------:| :-----:| --------:|
+| 512x1x126 | 126 | 1.0 | 0.867 | [Audio Sample](512.wav) |
+| 256x1x126 | 63 | 2.0 | 0.803 | [Audio Sample](256.wav) |
+| 128x1x126 | 31.5 | 4.0 | 0.929 | [Audio Sample](128.wav) |
+| 64x1x126 | 15.7 | 8.1 | 1.24 | [Audio Sample](64.wav) |
+| 32x1x126 | 7.9 | 16.2 | 1.61 | [Audio Sample](32.wav) |
+
+Additionally, the autoencoder error is compared against a "compression baseline" of simply downsampling the input signal. For example, if the input sampling frequency is 8kHz, the signal is resampled to 2kHz and the error is calculated.
 
 
 ![Performance Plot](compression_performance.png)
