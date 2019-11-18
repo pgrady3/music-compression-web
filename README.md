@@ -37,7 +37,11 @@ There are several choices of input space which are critical to achieving good pe
 
 ### Model details
 
+TODO: add
+
 ### Loss function
+
+TODO: merge with next section
 
 ### Compression Evaluation Metric
 
@@ -48,6 +52,8 @@ Music is fundamentally subjective. Thus generating a quantitatively evaluation m
 On the other hand, a time domain loss does not adequately capture high frequencies and low volumes. As human perception of sound is logarithmic, and low frequencies typically have higher amplitude, a time domain loss under-weights high frequencies and results in a muffled, underwater-sounding output.
 
 We follow the approach of [1] and instead use an RMSE metric by directly comparing the frequency spectra across time. This has the benefit of considering low amplitudes and high frequencies, and is perceptually much closer.
+
+TODO: maybe move the spectrograms to results? Use the notebook visualizations.ipynb for labels and stuff
 
 **Original Spectrogram**
 
