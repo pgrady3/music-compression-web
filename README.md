@@ -166,8 +166,6 @@ Overall space for the test set:
 
    ![confusion_matrix](results/classification/precision_confusion.png)
 
-TODO: If its not too hard, labels on the confusion matrix would be great
-
 ## Dimensionality reduction for analysis of latent space
 
 In this we tried to apply clustering algorithms on top of our feature space to visualize the latent space generated and see if there is any correlation that can be seen in a 2 dimensional space. We applied PCA, KernelPCA (with kernels rbf, poly, sigmoid and cosine), SparsePCA, LDA and TSNE on the latent features with 2 components in each. Unfortunately, we weren't able to achieve any satisfactory results and most of the genres show overlap with no discernible boundaries.
