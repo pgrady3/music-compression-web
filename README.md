@@ -35,33 +35,21 @@ There are several choices of input space which are critical to achieving good pe
 
 ### Model details
 
-TODO: add
+![freq_ae_model](model_diagrams/freq_model.jpeg)
 
 ### Loss function
 
-TODO: merge with next section
+An RMSE reconstruction loss is used to train the model. This model effectively penalizes large errors, with less weight given to small deviations. As seen in the next section, this directly optimizes for our evaluation metric.
 
 ### Compression Evaluation Metric
 
-Music is fundamentally subjective. Thus generating a quantitatively evaluation metric for our compression algorithm is very difficult. It is not possible to naively compare the reconstructed time domain signals, as completely different signals can sound the same. For example, phase shift, or small uniform frequency shifts are imperceptible to the human ear. A naive loss in the time domain would heavily penalise this.
+Music is fundamentally subjective. Thus generating a quantitative evaluation metric for our compression algorithm is very difficult. It is not possible to naively compare the reconstructed time domain signals, as completely different signals can sound the same. For example, phase shift, or small uniform frequency shifts are imperceptible to the human ear. A naive loss in the time domain would heavily penalise this.
 
 ![Phase Shift](phase_shift.png)
 
 On the other hand, a time domain loss does not adequately capture high frequencies and low volumes. As human perception of sound is logarithmic, and low frequencies typically have higher amplitude, a time domain loss under-weights high frequencies and results in a muffled, underwater-sounding output.
 
 We follow the approach of [1] and instead use an RMSE metric by directly comparing the frequency spectra across time. This has the benefit of considering low amplitudes and high frequencies, and is perceptually much closer.
-
-TODO: maybe move the spectrograms to results? Use the notebook visualizations.ipynb for labels and stuff
-
-**Original Spectrogram**
-
-![Original Spectrogram](original_spect.png)
-
-**Reconstructed Spectrogram**
-
-![Reconstructed Spectrogram](reconst_spect.png)
-
-We then use a simple RMSE metric to compare the reference and reconstruction
 
 ![RMSE Loss](rmse_loss.png)
 
@@ -101,6 +89,15 @@ We use a cross entropy loss function, which is a standard practice in classifica
 # Results
 
 ## Compression using frequency domain autoencoder
+
+
+**Original Spectrogram**
+
+![Original Spectrogram](original_spect.png)
+
+**Reconstructed Spectrogram**
+
+![Reconstructed Spectrogram](reconst_spect.png)
 
 TODO: add compression ratios too for easier understanding
 
