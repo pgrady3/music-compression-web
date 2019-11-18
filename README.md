@@ -89,8 +89,6 @@ Some of the loss functions we tried:
 
 ![Autoencoder Clustering](ae_clustering.png)
 
-TODO: This is a common unsupervised learning technique. Maybe this paper can give some ideas http://proceedings.mlr.press/v48/xieb16.pdf
-
 ### Model details
 ![classification_model](model_diagrams/classification.jpeg)
 
@@ -171,7 +169,11 @@ TODO: If its not too hard, labels on the confusion matrix would be great
 
 ## Dimensionality reduction for analysis of latent space
 
-In this we tried to apply clustering algorithms on top of our feature space 
+In this we tried to apply clustering algorithms on top of our feature space to visualize the latent space generated and see if there is any correlation that can be seen in a 2 dimensional space. We applied PCA, KernelPCA (with kernels rbf, poly, sigmoid and cosine), SparsePCA, LDA and TSNE on the latent features with 2 components in each. Unfortunately, we weren't able to achieve any satisfactory results and most of the genres show overlap with no discernible boundaries.
+
+Below is the 2-dimensional space using KernelPCA with Radial Basis Function as kernel:
+
+ ![RBF](clustering_rbf.png)
 
 # Discussion and Conclusions
 
